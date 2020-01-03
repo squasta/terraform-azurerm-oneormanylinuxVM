@@ -1,7 +1,7 @@
 # terraform-azurerm-oneormanylinuxVM
 Terraform code for deploying one or many Linux VM on Azure
 
-= Tested with success with Terraform v0.12.12 + Azurerm provider version v1.39.0 - 3rd of january 2020
+= Tested with success with Terraform v0.12.18 + Azurerm provider version v1.39.0 - 3rd of january 2020
 
 --------------------------------------------------------------------------------------------------------
 This is a set of Terraform files used to deploy one or many Linux Virtual Machines on Microsoft Azure :
