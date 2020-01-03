@@ -6,7 +6,7 @@ Terraform code for deploying one or many Linux VM on Azure
 --------------------------------------------------------------------------------------------------------
 This is a set of Terraform files used to deploy one or many Linux Virtual Machines on Microsoft Azure :
 
-- __datasource.tf__ : use this file to configure a remote backend for Terraform State on Terraform Cloud or Azure Storage. By default Terraform State will be stored locally
+- __datasource.tf__ : define a datasource to retrieve a Public SSH Key stored as a secret in an Azure Key Vault
 - __var.tf__ : contains definition of all variables used in main.tf. Some variables have default values
 - __main.tf__ : contains code to deploy an Azure Resource Group, a VNet, a Subnet, an Availability Set, 1 to N Linux virtual machine(s), a Network Security Group
 - __versions.tf__ : contains minimal version of Terraform to use
