@@ -94,11 +94,11 @@ resource "azurerm_virtual_machine" "Terra-VM-Stan1" {
   name                  = "${var.VMName}-${count.index}"
   location              = var.AzureRegion
   resource_group_name   = azurerm_resource_group.Terra-RG-Stan1.name
-  network_interface_ids = ["${element(azurerm_network_interface.Terra-NIC-Stan1.*.id, count.index)}"]
+  network_interface_ids = [element(azurerm_network_interface.Terra-NIC-Stan1.*.id, count.index)]
   vm_size               = var.VMSize
   availability_set_id   = azurerm_availability_set.Terra-AvailabilitySet-Stan1.id
   # explicit dependency to be sure that necessary resources are already created
-  depends_on = ["azurerm_network_interface.Terra-NIC-Stan1","azurerm_managed_disk.Terra-ManagedDisk-Stan1"]
+  depends_on = [azurerm_network_interface.Terra-NIC-Stan1,azurerm_managed_disk.Terra-ManagedDisk-Stan1]
 
   storage_image_reference {
     publisher = var.OSPublisher
@@ -115,11 +115,11 @@ resource "azurerm_virtual_machine" "Terra-VM-Stan1" {
   }
 
   storage_data_disk {
-    name            = "${element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.name, count.index)}"
-    managed_disk_id = "${element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.id, count.index)}"
+    name            = element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.name, count.index)
+    managed_disk_id = element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.id, count.index)
     create_option   = "Attach"
     lun             = 0
-    disk_size_gb    = "${element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.disk_size_gb, count.index)}"
+    disk_size_gb    = element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.disk_size_gb, count.index)
   }
 
   os_profile {
