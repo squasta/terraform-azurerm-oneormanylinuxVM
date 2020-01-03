@@ -22,14 +22,6 @@ resource "azurerm_subnet" "Terra-Subnet-Stan1" {
   address_prefix       = "10.0.2.0/24"
 }
 
-# Public IP Adress used to connect directly VM
-# resource "azurerm_public_ip" "PublicIP-Stan1" {
-#    name = var.PublicIPName
-#    resource_group_name = azurerm_resource_group.Terra-RG-Stan1.name
-#    public_ip_address_allocation = var.PublicIPAllocationType
-#    location = var.AzureRegion
-# }
-
 # Network Security Group
 resource "azurerm_network_security_group" "NSG-Stan1" {
   name                = var.NSGName
@@ -73,8 +65,6 @@ resource "azurerm_network_interface" "Terra-NIC-Stan1" {
     name                          = "Stan1-ipconfiguration"
     subnet_id                     = azurerm_subnet.Terra-Subnet-Stan1.id
     private_ip_address_allocation = var.PrivateIPAdressAllocationType
-    # public_ip_address_id = azurerm_public_ip.PublicIP-Stan1.id
-    # the previous line needs to be update to reflect the count
   }
 }
 
@@ -94,8 +84,8 @@ resource "azurerm_availability_set" "Terra-AvailabilitySet-Stan1" {
    name = var.AvailabilitySetName
    resource_group_name = azurerm_resource_group.Terra-RG-Stan1.name
    location = var.AzureRegion
-   managed = true
-   platform_fault_domain_count = 2   # par défaut c'est 3 mais en France Central c'est 2
+   managed = true  # necessary if you use managed disks
+   platform_fault_domain_count = 3   # by default it is 3 but in some region like France Central it can be 2
 }
 
 # Azure VM
@@ -104,11 +94,10 @@ resource "azurerm_virtual_machine" "Terra-VM-Stan1" {
   name                  = "${var.VMName}-${count.index}"
   location              = var.AzureRegion
   resource_group_name   = azurerm_resource_group.Terra-RG-Stan1.name
-  #network_interface_ids = [azurerm_network_interface.Terra-NIC-Stan1.id]
   network_interface_ids = ["${element(azurerm_network_interface.Terra-NIC-Stan1.*.id, count.index)}"]
   vm_size               = var.VMSize
   availability_set_id   = azurerm_availability_set.Terra-AvailabilitySet-Stan1.id
-  # dependance explicite pour être certain que les ressources existent déjà
+  # explicit dependency to be sure that necessary resources are already created
   depends_on = ["azurerm_network_interface.Terra-NIC-Stan1","azurerm_managed_disk.Terra-ManagedDisk-Stan1"]
 
   storage_image_reference {
@@ -126,13 +115,10 @@ resource "azurerm_virtual_machine" "Terra-VM-Stan1" {
   }
 
   storage_data_disk {
-    # name            = azurerm_managed_disk.Terra-ManagedDisk-Stan1.name
     name            = "${element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.name, count.index)}"
-    # managed_disk_id = azurerm_managed_disk.Terra-ManagedDisk-Stan1.id
     managed_disk_id = "${element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.id, count.index)}"
     create_option   = "Attach"
     lun             = 0
-    # disk_size_gb    = azurerm_managed_disk.Terra-ManagedDisk-Stan1.disk_size_gb
     disk_size_gb    = "${element(azurerm_managed_disk.Terra-ManagedDisk-Stan1.*.disk_size_gb, count.index)}"
   }
 
