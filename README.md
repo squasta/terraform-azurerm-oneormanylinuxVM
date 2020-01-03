@@ -11,7 +11,7 @@ This is a set of Terraform files used to deploy one or many Linux Virtual Machin
 - __main.tf__ : contains code to deploy an Azure Resource Group, a VNet, a Subnet, an Availability Set, 1 to N Linux virtual machine(s), a Network Security Group
 - __versions.tf__ : contains minimal version of Terraform to use
 
-Prerequisites :__
+__Prerequisites :__
 - An Azure Subscription with enough privileges (create RG, AKS...)
 - Azure CLI 2.0.78 : https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
 - Terraform CLI 0.12.12 or > : https://www.terraform.io/downloads.html
