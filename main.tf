@@ -53,6 +53,16 @@ resource "azurerm_network_security_group" "NSG-Stan1" {
   }
 }
 
+
+# Public IP Adress used to connect directly VM
+resource "azurerm_public_ip" "PublicIP-Stan1" {
+   count                   = var.NumberOfVM
+   name = "${var.PublicIPName}-${count.index}"
+   resource_group_name = azurerm_resource_group.Terra-RG-Stan1.name
+   allocation_method = var.PublicIPAllocationType
+   location = var.AzureRegion
+}
+
 # NIC VM attached to Subnet
 resource "azurerm_network_interface" "Terra-NIC-Stan1" {
   count               = var.NumberOfVM
@@ -65,6 +75,7 @@ resource "azurerm_network_interface" "Terra-NIC-Stan1" {
     name                          = "Stan1-ipconfiguration"
     subnet_id                     = azurerm_subnet.Terra-Subnet-Stan1.id
     private_ip_address_allocation = var.PrivateIPAdressAllocationType
+    public_ip_address_id = element(azurerm_public_ip.PublicIP-Stan1.*.id, count.index)  
   }
 }
 

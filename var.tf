@@ -18,16 +18,17 @@ variable "VNetName" {
 }
 
 # Variable Public IP Name
-# variable "PublicIPName" {
-#   type    = string
-#   default = "PublicIP4LinuxVM"
-# }
+variable "PublicIPName" {
+  type    = string
+  default = "PublicIP4LinuxVM"
+}
 
 # Variable Public IP Adress Allocation type
-# variable "PublicIPAllocationType" {
-#   type    = string
-#   default = "static"
-# }
+# Can be Static or Dynamic
+variable "PublicIPAllocationType" {
+  type    = string
+  default = "Static"
+}
 
 # Variable Nic Name
 variable "NicName" {
