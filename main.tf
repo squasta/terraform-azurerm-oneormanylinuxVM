@@ -134,7 +134,7 @@ resource "azurerm_virtual_machine" "Terra-VM-Stan1" {
   }
 
   os_profile {
-    computer_name  = "var.VMName-${count.index}"
+    computer_name  = "${var.VMName}-${count.index}"
     admin_username = var.AdminName
   }
 
