@@ -8,7 +8,7 @@ This is a set of Terraform files used to deploy one or many Linux Virtual Machin
 
 - __datasource.tf__ : define a datasource to retrieve a Public SSH Key stored as a secret in an Azure Key Vault
 - __var.tf__ : contains definition of all variables used in main.tf. Some variables have default values
-- __main.tf__ : contains code to deploy an Azure Resource Group, a VNet, a Subnet, an Availability Set, 1 to N Linux virtual machine(s), a Network Security Group
+- __main.tf__ : contains code to deploy an Azure Resource Group, a VNet, a Subnet, an Availability Set, 1 to N Linux virtual machine(s) with an additional data disk, a Network Security Group
 - __versions.tf__ : contains minimal version of Terraform to use
 
 __Prerequisites :__
