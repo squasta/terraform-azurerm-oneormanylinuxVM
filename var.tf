@@ -3,7 +3,7 @@
 # az account list-locations
 variable "AzureRegion" {
   type    = string
-  default = "westus2"
+  default = "westeurope"
 }
 
 # Variable to define resource group name
