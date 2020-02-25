@@ -5,5 +5,5 @@ terraform {
 
 # https://www.terraform.io/docs/providers/azurerm/index.html
 provider "azurerm" {
-  version  = ">=1.39"
+  version  = "=1.44.0"
 }
